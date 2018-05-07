@@ -3,12 +3,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using TrackerLibrary.Models;
 
-namespace TrackerLibrary
+namespace TrackerLibrary.DataAccess
 {
-    public class SqlConnection : IDataConnection
+    public class TextConnection : IDataConnection
     {
-        //TODO: Make the create prize method actually save to the database.
+        //TODO: Make Text Connection Class actually save to a text file
         /// <summary>
         /// Saves a new prize to the database
         /// </summary>
