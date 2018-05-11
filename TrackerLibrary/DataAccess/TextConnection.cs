@@ -11,10 +11,24 @@ namespace TrackerLibrary.DataAccess
     public class TextConnection : IDataConnection
     {
         private const string PrizesFile = "PrizeModels.csv";
+        private const string PeopleFile = "PeopleModels.csv";
 
         public PersonModel CreatePerson(PersonModel model)
         {
-            throw new NotImplementedException();
+            List<PersonModel> people = PeopleFile.FullFilePath().LoadFile().ConvertToPeopleModels();
+
+            int currentId = 1;
+
+            if (people.Count > 0)
+            {
+                currentId = people.Max(p => p.Id + 1);
+            }
+
+            model.Id = currentId;
+
+            people.Add(model);
+            people.SaveToPeopleFile(PeopleFile);
+            return model;
         }
 
 

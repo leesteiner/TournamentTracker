@@ -14,9 +14,32 @@ namespace TrackerUI
 {
     public partial class CreateTeamForm : Form
     {
+        private List<PersonModel> availableTeamMembers { get; set; } = new List<PersonModel>();
+        private List<PersonModel> selectedTeamMembers { get; set; } = new List<PersonModel>();
+
         public CreateTeamForm()
         {
             InitializeComponent();
+            //CreateSampleData();
+            WireUpLists();
+        }
+
+        private void CreateSampleData()
+        {
+            availableTeamMembers.Add(new PersonModel{FirstName = "Lee",LastName = "Steiner" });
+            availableTeamMembers.Add(new PersonModel { FirstName = "Sandy", LastName = "Steiner" });
+
+            selectedTeamMembers.Add(new PersonModel {FirstName = "Testor", LastName = "Jenkins" });
+            selectedTeamMembers.Add(new PersonModel { FirstName = "Tested", LastName = "Gherkins" });
+        }
+
+        private void WireUpLists()
+        {
+            selectTeamMemberDropDown.DataSource = availableTeamMembers;
+            selectTeamMemberDropDown.DisplayMember = "FullName";
+
+            teamMembersListbox.DataSource = selectedTeamMembers;
+            teamMembersListbox.DisplayMember = "FullName";
         }
 
         private void createMemberButton_Click(object sender, EventArgs e)
@@ -31,6 +54,11 @@ namespace TrackerUI
                 p.CellphoneNumber = cellphoneValue.Text;
 
                 GlobalConfig.Connection.CreatePerson(p);
+
+                firstNameValue.Text = "";
+                lastNameValue.Text = "";
+                emailValue.Text = "";
+                cellphoneValue.Text = "";
             }
 
             else
@@ -44,25 +72,27 @@ namespace TrackerUI
         {
             //TODO - Add better Validation
             bool output = true;
-            if (firstNameValue.Text.Length = 0)
+            if (firstNameValue.Text.Length == 0)
             {
-                return false;
+                output = false;
             }
 
-            if (lastNameValue.Text.Length = 0)
+            if (lastNameValue.Text.Length == 0)
             {
-                return false;
+                output = false;
             }
 
-            if (emailValue.Text.Length = 0)
+            if (emailValue.Text.Length == 0)
             {
-                return false;
+                output = false;
             }
 
-            if (cellphoneValue.Text.Length = 0)
+            if (cellphoneValue.Text.Length == 0)
             {
-                return false;
+                output = false;
             }
+
+            return output;
         }
     }
 }
